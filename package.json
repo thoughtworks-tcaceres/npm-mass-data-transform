@@ -1,0 +1,11 @@
+{
+  "name": "object-path-exists",
+  "version": "1.0.0",
+  "description": "Determine is deeply nested object is valid.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "author": "Tyler Caceres",
+  "license": "ISC"
+}
