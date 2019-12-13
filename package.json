@@ -1,14 +1,35 @@
 {
   "name": "object-path-exists",
   "version": "1.0.0",
-  "description": "Determine if deeply nested object is valid.",
-  "main": "index.js",
+  "description": "Determine if nested object is valid.",
+  "main": "./dist/index.js",
   "scripts": {
     "test": "jest --coverage"
   },
+  "keywords": [
+    "object",
+    "data",
+    "nested",
+    "path",
+    "exists",
+    "logical",
+    "operator",
+    "deep"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tylercaceres/npm-object-path-exists.git"
+  },
   "author": "Tyler Caceres",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tylercaceres/npm-object-path-exists/issues"
+  },
+  "homepage": "https://github.com/tylercaceres/npm-object-path-exists#readme",
   "devDependencies": {
     "jest": "^24.9.0"
+  },
+  "dependencies": {
+    "faker": "^4.1.0"
   }
 }
