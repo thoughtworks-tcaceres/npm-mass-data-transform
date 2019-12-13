@@ -4,8 +4,11 @@
   "description": "Determine if deeply nested object is valid.",
   "main": "index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "jest --coverage"
   },
   "author": "Tyler Caceres",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^24.9.0"
+  }
 }
