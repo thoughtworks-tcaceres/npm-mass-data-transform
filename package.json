@@ -1,35 +1,35 @@
 {
-  "name": "object-path-exists",
+  "name": "object-array-path-exists",
   "version": "1.0.0",
-  "description": "Determine if nested object is valid.",
+  "description": "Determine if object or array path is valid.",
   "main": "./dist/index.js",
   "scripts": {
     "test": "jest --coverage"
   },
   "keywords": [
     "object",
+    "array",
+    "index",
     "data",
     "nested",
     "path",
     "exists",
     "logical",
     "operator",
-    "deep"
+    "deep",
+    "breadth"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tylercaceres/npm-object-path-exists.git"
+    "url": "git+https://github.com/tylercaceres/npm-object-array-path-exists.git"
   },
   "author": "Tyler Caceres",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/tylercaceres/npm-object-path-exists/issues"
+    "url": "https://github.com/tylercaceres/npm-object-array-path-exists/issues"
   },
-  "homepage": "https://github.com/tylercaceres/npm-object-path-exists#readme",
+  "homepage": "https://github.com/tylercaceres/npm-object-array-path-exists#readme",
   "devDependencies": {
     "jest": "^24.9.0"
-  },
-  "dependencies": {
-    "faker": "^4.1.0"
   }
 }
