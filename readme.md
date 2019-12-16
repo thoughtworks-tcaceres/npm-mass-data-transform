@@ -136,6 +136,6 @@ pathExists(false, "country.province.city"); //false
 
 - [ ] create array examples
 - [ ] trim down number of examples: more breadth, less depth
-- [ ] create more advanced examples
+- [ ] create combination of array/object examples
 - [ ] create section showing when to use when rendering objects (e.g in react instead)
 - [ ] create table of contents
