@@ -1,6 +1,6 @@
 const objectPathExists = require("./index");
 
-const obj1 = { country: { province: { city: 5 } } };
+const obj1 = { country: { province: { city: "Toronto" } } };
 const obj2 = { element: { batallion: { unit: { squad: { team: "Alpha" } } } } };
 const obj3 = { "123-country": { "123-province": { "123-city": 5 } } };
 const obj4 = {
@@ -60,8 +60,6 @@ describe("invalid object path format", () => {
     expect(objectPathExists(obj1, 123)).toBeFalsy();
     expect(objectPathExists(obj1)).toBeFalsy();
     expect(objectPathExists(obj1, [])).toBeFalsy();
-    expect(objectPathExists(obj1)).toBeFalsy();
-    expect(objectPathExists(obj1)).toBeFalsy();
   });
 });
 
