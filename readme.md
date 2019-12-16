@@ -1,14 +1,10 @@
 ## object-array-path-exists
 
----
-
 Determines if the path of an object or array is valid.  
 This library supports arrays that are nested in objects.  
 Returns true if path exists. Returns false if path does not exist.
 
 ## Installing
-
----
 
 ```
 npm install object-array-path-exists
@@ -17,16 +13,12 @@ yarn add object-array-path-exists
 
 ## Initializing
 
----
-
 ```js
 import pathExists from "object-array-path-exists";
 var pathExists = require("object-array-path-exists");
 ```
 
-## Example
-
----
+## Examples
 
 ### Example set 1 - BASIC
 
