@@ -6,17 +6,50 @@ const obj3 = { "123-country": { "123-province": { "123-city": 5 } } };
 const obj4 = {
   "123-element": { "123-batallion": { "123-unit": { "123-squad": { "123-team": "Alpha" } } } }
 };
-const obj5 = [{ id: 1, name: "name 1" }, { id: 2, name: "name 2" }];
+const arrObj1 = [{ id: 0, name: "name 0" }, { id: 1, name: "name 1" }];
+const arrObj2 = {
+  series: "pokemon",
+  name: "pikachu",
+  type: "electric",
+  species: "mouse",
+  movies: [
+    "movie 0",
+    ["movie 1a", "movie 1b", "movie 1c"],
+    "movie 2",
+    "movie 3",
+    "movie 4",
+    "movie 5"
+  ]
+};
 
-describe("more complex", () => {
+const arr1 = [1, 2, 3];
+const arr2 = [1, ["2a", "2b"], 3, ["4a", "4b"]];
+
+describe("arr - object - intermediate", () => {
   it("more complex", () => {
-    console.log(obj5[0]);
-    expect(pathExists(obj5, "0.id")).toBeTruthy();
-    expect(pathExists(obj5, "0.name")).toBeTruthy();
-    expect(pathExists(obj5, "1.id")).toBeTruthy();
-    expect(pathExists(obj5, "1.name")).toBeTruthy();
-    expect(pathExists(obj5, "0.id.x")).toBeFalsy();
+    expect(pathExists(arr1, "0")).toBeTruthy();
+    expect(pathExists(arr1, "3")).toBeFalsy();
+    expect(pathExists(arr2, "0.0")).toBeFalsy();
+    expect(pathExists(arr2, "1.1")).toBeTruthy();
+    expect(pathExists(arr2, "3.2.1.0")).toBeFalsy();
   });
+});
+
+describe("arr - object - intermediate", () => {
+  it("more complex", () => {
+    expect(pathExists(arrObj1, "0.id")).toBeTruthy();
+    expect(pathExists(arrObj1, "0.name")).toBeTruthy();
+    expect(pathExists(arrObj1, "1.id")).toBeTruthy();
+    expect(pathExists(arrObj1, "1.name")).toBeTruthy();
+    expect(pathExists(arrObj1, "0.id.x")).toBeFalsy();
+    expect(pathExists(arrObj1, "0.2.x")).toBeFalsy();
+    expect(pathExists(arrObj2, "movies.5")).toBeTruthy();
+    expect(pathExists(arrObj2, "movies.1.2")).toBeTruthy();
+  });
+});
+
+describe("intermediate problem", () => {
+  it("array and object", () => {});
 });
 
 describe("valid nested paths", () => {
