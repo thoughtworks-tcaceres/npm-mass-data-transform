@@ -48,10 +48,6 @@ describe("arr - object - intermediate", () => {
   });
 });
 
-describe("intermediate problem", () => {
-  it("array and object", () => {});
-});
-
 describe("valid nested paths", () => {
   it("object 1", () => {
     expect(pathExists(obj1, "country")).toBeTruthy();
