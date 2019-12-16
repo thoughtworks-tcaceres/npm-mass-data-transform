@@ -1,6 +1,6 @@
 {
   "name": "object-array-path-exists",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "Determine if object or array path is valid.",
   "main": "./dist/index.js",
   "scripts": {
