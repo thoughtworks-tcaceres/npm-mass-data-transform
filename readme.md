@@ -1,7 +1,7 @@
 ## object-array-path-exists
 
-Determines if the path of an object or array is valid.  
-This library supports arrays that are nested in objects.  
+Determines if the path of an object / array is valid.  
+This library supports arrays and objects that are nested.
 Returns true if path exists. Returns false if path does not exist.
 
 ## Installing
@@ -180,12 +180,3 @@ pathExists(arrObj2, "movies.1.2"); //true
 pathExists(arrObj2, "name.middleName"); //false
 pathExists(arrObj2, "movies.2.0"); //false
 ```
-
-## TO DO
-
-~~- create array examples~~  
-~~- trim down number of examples: more breadth, less depth~~  
-~~- create combination of array/object examples~~
-
-- create section showing when to use when rendering objects (e.g in react instead)
-- create table of contents
