@@ -7,10 +7,10 @@
  *** objctPathExists(obj1,"a.x.2") //false
  */
 const dataTransform = (
-  arrObj2,
+  arrObjOrig,
   { transformFields = {}, addFields = {}, deleteFields = [], renameFields = {} }
 ) => {
-  let arrObj = JSON.parse(JSON.stringify(arrObj2));
+  let arrObj = JSON.parse(JSON.stringify(arrObjOrig));
   let newArr = arrObj.map((record) => {
     const newObj = {};
     for (const i in record) {
