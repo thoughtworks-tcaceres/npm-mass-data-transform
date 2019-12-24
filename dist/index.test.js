@@ -1,112 +1,69 @@
-const pathExists = require("./index");
+const dataTransform = require("./index");
 
-const obj1 = { country: { province: { city: "Toronto" } } };
-const obj2 = { element: { batallion: { unit: { squad: { team: "Alpha" } } } } };
-const obj3 = { "123-country": { "123-province": { "123-city": 5 } } };
-const obj4 = {
-  "123-element": { "123-batallion": { "123-unit": { "123-squad": { "123-team": "Alpha" } } } }
-};
-const arrObj1 = [{ id: 0, name: "name 0" }, { id: 1, name: "name 1" }];
-const arrObj2 = {
-  series: "pokemon",
-  name: "pikachu",
-  type: "electric",
-  species: "mouse",
-  movies: [
-    "movie 0",
-    ["movie 1a", "movie 1b", "movie 1c"],
-    "movie 2",
-    "movie 3",
-    "movie 4",
-    "movie 5"
-  ]
+const arrObj1 = [
+  { id: 1, enabled: true, name: "Anakin Skywalker" },
+  { id: 2, enabled: true, name: "Ahsoka Tano" },
+  { id: 3, enabled: false, name: "Darth Maul" }
+];
+
+const options1 = {
+  transformFields: {
+    id: (r) => r.id + 1,
+    name: (r) => r.name + " The Chosen One",
+    enabled: (r) => (r.enabled = !r.enabled)
+  }
 };
 
-const arr1 = [1, 2, 3];
-const arr2 = [1, ["2a", "2b"], 3, ["4a", "4b"]];
+const options2 = {
+  addFields: {
+    alignment: (r) => (r.id < 3 ? "good" : "evil")
+  }
+};
 
-describe("arr - object - intermediate", () => {
-  it("more complex", () => {
-    expect(pathExists(arr1, "0")).toBeTruthy();
-    expect(pathExists(arr1, "3")).toBeFalsy();
-    expect(pathExists(arr2, "0.0")).toBeFalsy();
-    expect(pathExists(arr2, "1.1")).toBeTruthy();
-    expect(pathExists(arr2, "3.2.1.0")).toBeFalsy();
+describe("basic", () => {
+  it("only transform fields", () => {
+    expect(dataTransform(arrObj1, options1)).toStrictEqual([
+      { id: 2, enabled: false, name: "Anakin Skywalker The Chosen One" },
+      { id: 3, enabled: false, name: "Ahsoka Tano The Chosen One" },
+      { id: 4, enabled: true, name: "Darth Maul The Chosen One" }
+    ]);
+  });
+  it("only adds fields", () => {
+    expect(dataTransform(arrObj1, options2)).toStrictEqual([
+      { id: 1, enabled: true, name: "Anakin Skywalker", alignment: "good" },
+      { id: 2, enabled: true, name: "Ahsoka Tano", alignment: "good" },
+      { id: 3, enabled: false, name: "Darth Maul", alignment: "evil" }
+    ]);
   });
 });
 
-describe("arr - object - intermediate", () => {
-  it("more complex", () => {
-    expect(pathExists(arrObj1, "0.id")).toBeTruthy();
-    expect(pathExists(arrObj1, "0.name")).toBeTruthy();
-    expect(pathExists(arrObj1, "1.id")).toBeTruthy();
-    expect(pathExists(arrObj1, "1.name")).toBeTruthy();
-    expect(pathExists(arrObj1, "0.id.x")).toBeFalsy();
-    expect(pathExists(arrObj1, "0.2.x")).toBeFalsy();
-    expect(pathExists(arrObj2, "movies.5")).toBeTruthy();
-    expect(pathExists(arrObj2, "movies.1.2")).toBeTruthy();
-  });
-});
+// const arrObj1 = [
+//   {
+//     x: [1, 2, 3],
+//     y: 2,
+//     z: 3,
+//     a: 25
+//   },
+//   { x: [2, 1, 3], y: 4, z: 6 },
+//   {
+//     x: [0, 0, 0],
+//     y: 0,
+//     z: 0
+//   }
+// ];
 
-describe("valid nested paths", () => {
-  it("object 1", () => {
-    expect(pathExists(obj1, "country")).toBeTruthy();
-    expect(pathExists(obj1, "country.province")).toBeTruthy();
-    expect(pathExists(obj1, "country.province.city")).toBeTruthy();
-  });
-  it("object 2", () => {
-    expect(pathExists(obj2, "element")).toBeTruthy();
-    expect(pathExists(obj2, "element.batallion")).toBeTruthy();
-    expect(pathExists(obj2, "element.batallion.unit")).toBeTruthy();
-    expect(pathExists(obj2, "element.batallion.unit.squad")).toBeTruthy();
-    expect(pathExists(obj2, "element.batallion.unit.squad.team")).toBeTruthy();
-  });
-});
-
-describe("valid nested paths that can't be used with dot notation", () => {
-  it("object 3", () => {
-    expect(pathExists(obj3, "123-country")).toBeTruthy();
-    expect(pathExists(obj3, "123-country.123-province")).toBeTruthy();
-    expect(pathExists(obj3, "123-country.123-province.123-city")).toBeTruthy();
-  });
-  it("object 4", () => {
-    expect(pathExists(obj4, "123-element")).toBeTruthy();
-    expect(pathExists(obj4, "123-element.123-batallion")).toBeTruthy();
-    expect(pathExists(obj4, "123-element.123-batallion.123-unit")).toBeTruthy();
-    expect(pathExists(obj4, "123-element.123-batallion.123-unit.123-squad")).toBeTruthy();
-    expect(pathExists(obj4, "123-element.123-batallion.123-unit.123-squad.123-team")).toBeTruthy();
-  });
-});
-
-describe("invalid nested paths", () => {
-  it("object 1", () => {
-    expect(pathExists(obj1, "pikachu")).toBeFalsy();
-    expect(pathExists(obj1, "country.pikachu")).toBeFalsy();
-    expect(pathExists(obj1, "country.province.invalidKey")).toBeFalsy();
-  });
-  it("object 2", () => {
-    expect(pathExists(obj2, "element1")).toBeFalsy();
-    expect(pathExists(obj2, "element.batallion1")).toBeFalsy();
-    expect(pathExists(obj2, "element.batallion.unit1")).toBeFalsy();
-    expect(pathExists(obj2, "element.batallion.unit.squad1")).toBeFalsy();
-    expect(pathExists(obj2, "element.batallion.unit.squad.team1")).toBeFalsy();
-  });
-});
-
-describe("invalid object path format", () => {
-  it("invalid", () => {
-    expect(pathExists(obj1, "")).toBeFalsy();
-    expect(pathExists(obj1, 123)).toBeFalsy();
-    expect(pathExists(obj1)).toBeFalsy();
-    expect(pathExists(obj1, [])).toBeFalsy();
-  });
-});
-
-describe("invalid object format", () => {
-  it("invalid", () => {
-    expect(pathExists("", "country.province.city")).toBeFalsy();
-    expect(pathExists(null, "country.province.city")).toBeFalsy();
-    expect(pathExists(undefined, "country.province.city")).toBeFalsy();
-    expect(pathExists(false, "country.province.city")).toBeFalsy();
-  });
-});
+// const options1 = {
+//   transformFields: {
+//     x: (x) => x.map((a) => a + 1),
+//     y: (y) => y * 1,
+//     z: (z) => z * 2,
+//     a: () => "hello there"
+//   },
+//   addFields: {
+//     r: (row) => row.y + row.z
+//   },
+//   deleteFields: ["x"],
+//   renameFields: {
+//     a: "greeting"
+//   }
+// };
