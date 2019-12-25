@@ -14,7 +14,7 @@ const dataTransform = (
   let newArr = arrObj.map((record) => {
     const newObj = {};
     for (const i in record) {
-      if (transformFields[i]) {
+      if (transformFields.hasOwnProperty(i)) {
         newObj[i] = transformFields[i](record);
       } else {
         newObj[i] = record[i];
@@ -30,9 +30,9 @@ const dataTransform = (
     }
 
     for (const i in renameFields) {
-      if (newObj[i]) {
-        let temp = newObj[i];
-        newObj[renameFields[i]] = temp;
+      if (newObj.hasOwnProperty(i)) {
+        let temp = JSON.parse(JSON.stringify(newObj[i]));
+        newObj[renameFields[i]] = JSON.parse(JSON.stringify(temp));
         delete newObj[i];
       }
     }

@@ -28,7 +28,7 @@ const options4 = {
   renameFields: {
     id: "newId",
     enabled: "newEnabled",
-    name: "newName"
+    fakeName: "newName"
   }
 };
 
@@ -56,40 +56,9 @@ describe("basic", () => {
   });
   it("only renames fields", () => {
     expect(dataTransform(arrObj1, options4)).toStrictEqual([
-      { newId: 1, newEnabled: true, newName: "Anakin Skywalker" },
-      { newId: 2, newEnabled: true, newName: "Ahsoka Tano" },
-      { newId: 3, newEnabled: false, newName: "Darth Maul" }
+      { newId: 1, newEnabled: true, name: "Anakin Skywalker" },
+      { newId: 2, newEnabled: true, name: "Ahsoka Tano" },
+      { newId: 3, newEnabled: false, name: "Darth Maul" }
     ]);
   });
 });
-
-// const arrObj1 = [
-//   {
-//     x: [1, 2, 3],
-//     y: 2,
-//     z: 3,
-//     a: 25
-//   },
-//   { x: [2, 1, 3], y: 4, z: 6 },
-//   {
-//     x: [0, 0, 0],
-//     y: 0,
-//     z: 0
-//   }
-// ];
-
-// const options1 = {
-//   transformFields: {
-//     x: (x) => x.map((a) => a + 1),
-//     y: (y) => y * 1,
-//     z: (z) => z * 2,
-//     a: () => "hello there"
-//   },
-//   addFields: {
-//     r: (row) => row.y + row.z
-//   },
-//   deleteFields: ["x"],
-//   renameFields: {
-//     a: "greeting"
-//   }
-// };
