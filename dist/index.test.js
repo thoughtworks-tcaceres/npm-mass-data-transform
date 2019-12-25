@@ -20,6 +20,18 @@ const options2 = {
   }
 };
 
+const options3 = {
+  deleteFields: ["enabled", "id"]
+};
+
+const options4 = {
+  renameFields: {
+    id: "newId",
+    enabled: "newEnabled",
+    name: "newName"
+  }
+};
+
 describe("basic", () => {
   it("only transform fields", () => {
     expect(dataTransform(arrObj1, options1)).toStrictEqual([
@@ -33,6 +45,20 @@ describe("basic", () => {
       { id: 1, enabled: true, name: "Anakin Skywalker", alignment: "good" },
       { id: 2, enabled: true, name: "Ahsoka Tano", alignment: "good" },
       { id: 3, enabled: false, name: "Darth Maul", alignment: "evil" }
+    ]);
+  });
+  it("only deletes fields", () => {
+    expect(dataTransform(arrObj1, options3)).toStrictEqual([
+      { name: "Anakin Skywalker" },
+      { name: "Ahsoka Tano" },
+      { name: "Darth Maul" }
+    ]);
+  });
+  it("only renames fields", () => {
+    expect(dataTransform(arrObj1, options4)).toStrictEqual([
+      { newId: 1, newEnabled: true, newName: "Anakin Skywalker" },
+      { newId: 2, newEnabled: true, newName: "Ahsoka Tano" },
+      { newId: 3, newEnabled: false, newName: "Darth Maul" }
     ]);
   });
 });
