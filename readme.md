@@ -56,7 +56,15 @@ addFields: object that consists of the new key value names and functions used fo
 ```
 
 ```
-deleteFields: array that consists of the strings of the keys to be deleted.``The order of precedence for the operations is transform -> add -> delete -> rename.
+deleteFields: array that consists of the strings of the keys to be deleted.
+```
+
+```
+renameFields: object that consists of the old key / new key.
+```
+
+```
+The order of precedence for the operations is transform -> add -> delete -> rename.
 ```
 
 ## Examples
