@@ -17,6 +17,48 @@ import transform from "mass-data-transform";
 var transform = require("mass-data-transform");
 ```
 
+## How To Use
+
+### Syntax
+
+```js
+let transformedData = transform(arrObj, options);
+```
+
+### Parameters
+
+```
+arrObj : The array of objects
+e.g:
+const arrObj = [{id:1,name:'Bulbasaur',{id:2,name:'Squirtle'}}]
+```
+
+```
+options : an object that exists of up to 4 different key values - transformFields, addFields, deleteFields, and renameFields. All 4 are optional.
+e.g:
+const options = {
+  transformFields:/*optional object here*/,
+  addFields:/*optional object here*/,
+  deleteFields:/*optional array here*/,
+  renameFields/*optional object here*/
+}
+Please refer to examples for more information.
+```
+
+#### options - in depth
+
+```
+transformFields: object that consists of the key value and functions used to transform the data.
+```
+
+```
+addFields: object that consists of the new key value names and functions used for the new fields.
+```
+
+```
+deleteFields: array that consists of the strings of the keys to be deleted.``The order of precedence for the operations is transform -> add -> delete -> rename.
+```
+
 ## Examples
 
 ### Example set 1 - BASIC
