@@ -1,6 +1,6 @@
 {
   "name": "mass-data-transform",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Transforms array of objects into a custom format. Was developed because I wanted my data to look a certain way after getting it from an API.",
   "main": "./dist/index.js",
   "scripts": {
