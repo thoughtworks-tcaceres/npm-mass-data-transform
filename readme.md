@@ -1,21 +1,20 @@
-## object-array-path-exists
+## mass-data-transform
 
-Determines if the path of an object / array is valid.  
-This library supports arrays and objects that are nested.
-Returns true if path exists. Returns false if path does not exist.
+Transforms an array of objects into a custom format. Was developed because I wanted my data to look a certain way after retrieving data from an API.
+This library allows you to transform, add, delete, and rename fields.
 
 ## Installing
 
 ```
-npm install object-array-path-exists
-yarn add object-array-path-exists
+npm install mass-data-transform
+yarn add mass-data-transform
 ```
 
 ## Initializing
 
 ```js
-import pathExists from "object-array-path-exists";
-var pathExists = require("object-array-path-exists");
+import transform from "mass-data-transform";
+var transform = require("mass-data-transform");
 ```
 
 ## Examples
@@ -23,160 +22,160 @@ var pathExists = require("object-array-path-exists");
 ### Example set 1 - BASIC
 
 ```js
-//basic nested object
-const obj1 = {
-  country: {
-    province: {
-      city: "Toronto"
-    }
+//arrObj1 used for all examples in set 1
+const arrObj1 = [
+  { id: 1, enabled: true, name: "Anakin Skywalker" },
+  { id: 2, enabled: true, name: "Ahsoka Tano" },
+  { id: 3, enabled: false, name: "Darth Maul" }
+];
+```
+
+```js
+//transformFields only
+const options1 = {
+  transformFields: {
+    id: (r) => r.id + 1,
+    name: (r) => r.name + " The Chosen One",
+    enabled: (r) => (r.enabled = !r.enabled)
   }
 };
 
-//valid
-pathExists(obj1, "country"); //true
-pathExists(obj1, "country.province.city"); //true
-
-//invalid
-pathExists(obj1, "country.pikachu"); //false
-pathExists(obj1, "country.province.invalidKey"); //false;
+transform(arrObj1, options1);
+//output
+[
+  { id: 2, enabled: false, name: "Anakin Skywalker The Chosen One" },
+  { id: 3, enabled: false, name: "Ahsoka Tano The Chosen One" },
+  { id: 4, enabled: true, name: "Darth Maul The Chosen One" }
+];
 ```
 
 ```js
-//basic nested object
-const obj2 = {
-  element: {
-    batallion: {
-      unit: {
-        squad: {
-          team: "Alpha"
-        }
-      }
-    }
+//addFields only
+const options2 = {
+  addFields: {
+    alignment: (r) => (r.id < 3 ? "good" : "evil")
   }
 };
 
-//valid
-pathExists(obj2, "element"); //true
-pathExists(obj2, "element.batallion.unit.squad.team"); //true
-
-//invalid
-pathExists(obj2, "element1"); //false
-pathExists(obj2, "element.batallion.unit.squad.team1"); //false
+transform(arrObj1, options2);
+//output
+[
+  { id: 1, enabled: true, name: "Anakin Skywalker", alignment: "good" },
+  { id: 2, enabled: true, name: "Ahsoka Tano", alignment: "good" },
+  { id: 3, enabled: false, name: "Darth Maul", alignment: "evil" }
+];
 ```
 
 ```js
-//basic array
-const arr1 = [1, 2, 3];
+//deleteFields only
+const options3 = {
+  deleteFields: ["enabled", "id"]
+};
 
-//valid
-pathExists(arr1, "0"); //true
-pathExists(arr1, "2"); //true
-
-//invalid
-pathExists(arr1, "3"); //false
-pathExists(arr2, "0.0"); //false
+transform(arrObj1, options3);
+//output
+[{ name: "Anakin Skywalker" }, { name: "Ahsoka Tano" }, { name: "Darth Maul" }];
 ```
 
 ```js
-//basic nested array
-const arr2 = [1, ["2a", "2b"], 3, ["4a", "4b"]];
+//renameFields only
+const options4 = {
+  renameFields: {
+    id: "newId",
+    enabled: "newEnabled"
+  }
+};
 
-//valid
-pathExists(arr2, "1.1"); //true
-pathExists(arr2, "3.0"); //true
-
-//invalid
-pathExists(arr2, "0.0"); //false
-pathExists(arr2, "3.2.1.0"); //false
+transform(arrObj1, options4);
+//output
+[
+  { newId: 1, newEnabled: true, name: "Anakin Skywalker" },
+  { newId: 2, newEnabled: true, name: "Ahsoka Tano" },
+  { newId: 3, newEnabled: false, name: "Darth Maul" }
+];
 ```
 
 ### Example set 2 - INTERMEDIATE
 
 ```js
-//nested object - non standard key (bracket notation)
-const obj3 = {
-  "123-country": {
-    "123-province": {
-      "123-city": "Toronto"
-    }
-  }
-};
-
-//valid
-pathExists(obj3, "123-country"); //true
-pathExists(obj3, "123-country.123-province.123-city"); //true
-
-//invalid (Note: incorrect path formats)
-pathExists(obj1, 123); //false
-pathExists(obj1); //false
-pathExists(obj1, []); //false
-```
-
-```js
-//nested object - non standard key (bracket notation)
-const obj4 = {
-  "123-element": {
-    "123-batallion": {
-      "123-unit": {
-        "123-squad": {
-          "123-team": "Alpha"
-        }
-      }
-    }
-  }
-};
-
-//valid paths
-pathExists(obj4, "123-element"); //true
-pathExists(obj4, "123-element.123-batallion.123-unit.123-squad.123-team"); //true
-
-//invalid (Note: incorrect object/array format)
-pathExists("", "country.province.city"); //false
-pathExists(null, "country.province.city"); //false
-pathExists(undefined, "country.province.city"); //false
-pathExists(false, "country.province.city"); //false
-```
-
-### Example set 3 - ADVANCED
-
-```js
-//object and array combination
-const arrObj1 = [{ id: 0, name: "name 0" }, { id: 1, name: "name 1" }];
-
-//valid
-pathExists(arrObj1, "0.id"); //true
-pathExists(arrObj1, "1.name"); //true
-
-//invalid
-pathExists(arrObj1, "0.id.x"); //false
-pathExists(arrObj1, "0.2.x"); //false
-```
-
-```js
-//object and array combination
-const arrObj2 = {
-  series: "pokemon",
-  name: {
-    firstName: "pika",
-    lastName: "chu"
+//arrObj2 used for all examples in set 2
+const arrObj2 = [
+  {
+    id: 0,
+    series: "bleach",
+    status: "enabled",
+    name: { firstName: "ichigo", lastName: "kurosaki" },
+    team: "soul society",
+    hasWife: true
   },
-  type: "electric",
-  species: "mouse",
-  movies: [
-    "movie 0",
-    ["movie 1a", "movie 1b", "movie 1c"],
-    "movie 2",
-    "movie 3",
-    "movie 4",
-    "movie 5"
-  ]
+  {
+    id: 1,
+    series: "naruto",
+    status: "enabled",
+    name: { firstName: "naruto", lastName: "uzumaki" },
+    team: "leaf village",
+    hasWife: true
+  },
+  {
+    id: 2,
+    series: "fairy tail",
+    status: "disabled",
+    name: { firstName: "natsu", lastName: "dragneel" },
+    team: "fairy tail guild",
+    hasWife: false
+  }
+];
+```
+
+```js
+options5 = {
+  transformFields: {
+    id: (r) => ("000" + r.id).slice(-3)
+  },
+  addFields: {
+    firstName: (r) => r.name.firstName,
+    lastName: (r) => r.name.lastName,
+    enabled: (r) => (r.status === "enabled" ? true : false)
+  },
+  deleteFields: ["name", "status"],
+  renameFields: {
+    hasWife: "hasPartner"
+  }
 };
 
-//valid
-pathExists(arrObj2, "movies.5"); //true
-pathExists(arrObj2, "movies.1.2"); //true
-
-//invalid
-pathExists(arrObj2, "name.middleName"); //false
-pathExists(arrObj2, "movies.2.0"); //false
+transform(arrObj2, options5);
+//output
+[
+  {
+    id: "000",
+    series: "bleach",
+    enabled: true,
+    firstName: "ichigo",
+    lastName: "kurosaki",
+    team: "soul society",
+    hasPartner: true
+  },
+  {
+    id: "001",
+    series: "naruto",
+    enabled: true,
+    firstName: "naruto",
+    lastName: "uzumaki",
+    team: "leaf village",
+    hasPartner: true
+  },
+  {
+    id: "002",
+    series: "fairy tail",
+    enabled: false,
+    firstName: "natsu",
+    lastName: "dragneel",
+    team: "fairy tail guild",
+    hasPartner: false
+  }
+];
 ```
+
+## To-Do
+
+- more intermediate / advance examples
