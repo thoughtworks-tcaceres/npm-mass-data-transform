@@ -223,7 +223,3 @@ transform(arrObj2, options5);
   }
 ];
 ```
-
-## To-Do
-
-- more intermediate / advance examples
